@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyShills - Where Memecoins and Investors Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #7d7aff;
+            --dark: #2c2c34;
+            --light: #f7f7ff;
+            --success: #4cd964;
+            --danger: #ff3b30;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Hammersmith One", sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            display: flex;
+            overflow-x: hidden;
+        }
+        
+        /* New Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .sidebar-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .rules-section {
+            margin-bottom: 30px;
+        }
+        
+        .rules-section h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .rules-section ol {
+            padding-left: 20px;
+        }
+        
+        .rules-section li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-link {
+            color: var(--dark);
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin-left: 300px; /* Make space for sidebar */
+        }
+        
+        header {
+    padding: 25px 30px; /* Increased from 15px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #fd297b, #ff5864, #ff655b);
+    color: white;
+    min-height: 80px; /* Added minimum height */
+    font-size: 1.2em; /* Optionally increase font size if needed */
+}
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        nav {
+            display: flex;
+        }
+        
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        .card-container {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 360px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        
+        .card-img {
+            height: 300px;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .coin-stats {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+        }
+        
+        .coin-stats h2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .market-cap {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+        
+        .card-info {
+            padding: 20px;
+        }
+        
+        .card-bio h3 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .card-bio p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .creator-info {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #777;
+        }
+        
+        .bottom-controls {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .dislike {
+            background-color: white;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .superlike {
+            background-color: var(--secondary);
+            color: white;
+            font-size: 18px;
+        }
+        
+        .like {
+            background-color: white;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #aaa;
+            font-size: 22px;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+        }
+        
+        .tab span {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        /* Modal for creating new coin */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 15px;
+            padding: 25px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            color: var(--primary);
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            background-color: #ff5252;
+        }
+        
+        /* Added animation for swiping */
+        .swipe-left {
+            transform: translateX(-150%) rotate(-30deg);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        
+        .swipe-right {
+            transform: translateX(150%) rotate(30deg);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        
+        .match-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+        }
+        
+        .match-logo {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .match-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .match-subtitle {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        .match-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .match-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .invest-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .continue-btn {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+        
+        /* Animation for create coin button */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Make create coin button more prominent */
+        #create-coin-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Right side logo with falling hearts */
+/* ... (previous CSS remains the same until the right-side-logo section) ... */
+
+/* Right side logo with falling hearts - updated */
+.right-side-logo {
+    position: fixed;
+    left: 50%; /* Changed from right: 20px */
+    margin-left: 100px; /* Adjust this to move left/right */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px; /* Increased from 300px */
+    height: 500px; /* Increased from 300px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.right-side-logo img {
+    width: 100%;
+    height: auto;
+    max-width: 350px; /* Increased from 250px */
+    filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
+}
+
+.heart {
+    position: absolute;
+    color: var(--primary);
+    font-size: 50px; /* Increased from 20px */
+    animation: falling linear infinite;
+    opacity: 0;
+    z-index: -1;
+}
+
+
+        
+        @keyframes falling {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .container {
+                margin-left: 0;
+                max-width: 100%;
+            }
+            
+            .right-side-logo {
+                display: none;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- New Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-title">OnlyShills Rules</div>
+        
+        <div class="rules-section">
+            <h3>How It Works</h3>
+            <ol>
+                <li><strong>Swipe Right</strong> to like a memecoin</li>
+                <li><strong>Swipe Left</strong> to pass on a memecoin</li>
+                <li><strong>Super Like</strong> with the star button for guaranteed match</li>
+                <li>When you match, you'll get the coin details to invest</li>
+                <li>Create your own memecoin listing to get shilled</li>
+            </ol>
+        </div>
+        
+        <div class="rules-section">
+            <h3>Community Guidelines</h3>
+            <ol>
+                <li>Only list legitimate memecoins (no scams)</li>
+                <li>Be honest in your coin descriptions</li>
+                <li>No hate speech or offensive content</li>
+                <li>Respect other community members</li>
+                <li>Have fun and enjoy the memes!</li>
+            </ol>
+        </div>
+        
+        <div class="social-links">
+            <a href="https://t.me/onlyshillss" class="social-link" target="_blank">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://x.com/_Onlyshills_" class="social-link" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        
+        <a href="https://pump.fun/profile/HvRHsnamSPYNuKU3Gv77ZB625wyG3cHijHBKgtXgP9iX" class="buy-button" target="_blank">
+            <i class="fas fa-rocket"></i> Buy $ONLYSHILLS
+        </a>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="logo.png" alt="OnlyShills Logo">
+                OnlyShills Platform
+            </div>
+            <nav>
+                <button id="create-coin-btn" class="pulse-animation"><i class="fas fa-plus-circle"></i></button>
+            </nav>
+        </header>
+        
+        <div class="card-container">
+            <div class="card" id="current-card">
+                <div class="card-img" style="background-image: url('/api/placeholder/360/300')">
+                    <div class="coin-stats">
+                        <h2>
+                            PEPE <span class="ticker">$PEPE</span>
+                        </h2>
+                        <div class="market-cap">Market Cap: $567M</div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-bio">
+                        <h3>About</h3>
+                        <p>The original meme coin inspired by the iconic Pepe the Frog. No utility, just pure meme power and community vibes. To the moon! 🚀</p>
+                        <p class="pumpfun-link" style="margin-top: 10px; font-size: 12px; color: var(--secondary);">
+                            <a href="https://pump.fun/pepe" target="_blank" style="color: var(--secondary);">View on Pump.fun →</a>
+                        </p>
+                    </div>
+                    <div class="creator-info">
+                        <span>Created by Anonymous • 800K holders</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" id="next-card" style="transform: scale(0.9); opacity: 0; z-index: -1;">
+                <div class="card-img" style="background-image: url('/api/placeholder/360/300')">
+                    <div class="coin-stats">
+                        <h2>
+                            DOGE <span class="ticker">$DOGE</span>
+                        </h2>
+                        <div class="market-cap">Market Cap: $12.3B</div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-bio">
+                        <h3>About</h3>
+                        <p>The OG memecoin that started it all. Much wow, very currency! Endorsed by Elon Musk himself. Started as a joke, now we're here.</p>
+                    </div>
+                    <div class="creator-info">
+                        <span>Created by Billy Markus & Jackson Palmer • 4.2M holders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bottom-controls">
+            <div class="action-btn dislike" id="dislike-btn">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="action-btn superlike" id="superlike-btn">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="action-btn like" id="like-btn">
+                <i class="fas fa-heart"></i>
+            </div>
+        </div>
+        
+        <div class="tab-bar">
+            <div class="tab active">
+                <i class="fas fa-search"></i>
+                <span>Discover</span>
+            </div>
+            <div class="tab">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+            </div>
+            <div class="tab">
+                <i class="fas fa-chart-line"></i>
+                <span>Portfolio</span>
+            </div>
+            <div class="tab">
+                <button id="create-coin-btn-bottom" style="background: none; border: none; color: var(--primary); font-size: 22px;">
+                    <i class="fas fa-plus-circle"></i>
+                    <span style="font-size: 12px; margin-top: 5px;">Create</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Side Logo with Falling Hearts -->
+    <div class="right-side-logo">
+        <img src="logo.png" alt="OnlyShills Big Logo">
+    </div>
+    
+    <!-- Create Coin Modal -->
+    <div class="modal" id="create-coin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Your Memecoin</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="coin-form">
+                <div class="form-group">
+                    <label for="coin-name">Coin Name</label>
+                    <input type="text" id="coin-name" class="form-control" placeholder="e.g. PEPE" required>
+                </div>
+                <div class="form-group">
+                    <label for="coin-ticker">Ticker Symbol</label>
+                    <input type="text" id="coin-ticker" class="form-control" placeholder="e.g. $PEPE" required>
+                </div>
+                <div class="form-group">
+                    <label for="coin-bio">About Coin</label>
+                    <textarea id="coin-bio" class="form-control" placeholder="Tell potential investors why your coin is the next big thing..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="market-cap">Market Cap (USD)</label>
+                    <input type="text" id="market-cap" class="form-control" placeholder="e.g. 1000000">
+                </div>
+                <div class="form-group">
+                    <label for="coin-image">Coin Logo (URL, Get it from pumpfun image address)</label>
+                    <input type="text" id="coin-image" class="form-control" placeholder="https://example.com/coin.png" required>
+                </div>
+                <div class="form-group">
+                    <label for="creator-name">Creator Name</label>
+                    <input type="text" id="creator-name" class="form-control" placeholder="Your name or 'Anonymous'">
+                </div>
+                <div class="form-group">
+                    <label for="pumpfun-link">Pump.fun Link</label>
+                    <input type="text" id="pumpfun-link" class="form-control" placeholder="https://pump.fun/yourcoin" required>
+                </div>
+                <button type="submit" class="btn btn-primary">List My Coin</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Match Overlay -->
+    <div class="match-overlay" id="match-overlay">
+        <div class="match-logo">OnlyShills</div>
+        <h1 class="match-title">It's a Match!</h1>
+        <p class="match-subtitle">You and PEPE like each other 🚀</p>
+        <div class="coin-preview">
+            <img id="matched-coin-image" src="/api/placeholder/120/120" alt="PEPE Coin" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover;">
+        </div>
+        <br>
+        <div class="match-buttons">
+            <div class="match-btn invest-btn" id="invest-now-btn">Buy Now</div>
+            <div class="match-btn continue-btn">Keep Swiping</div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-storage.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyCkVvH-tcCIpuEc_-dPrTTJ28hyZzVfssw",
+          authDomain: "onlyshills-ec68e.firebaseapp.com",
+          projectId: "onlyshills-ec68e",
+          storageBucket: "onlyshills-ec68e.firebasestorage.app",
+          messagingSenderId: "940764103566",
+          appId: "1:940764103566:web:4f045037b4c9fde1105adf",
+          measurementId: "G-D5BL75RJ0B"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+    
+        // DOM Elements
+        const createCoinBtn = document.getElementById('create-coin-btn');
+        const createCoinBtnBottom = document.getElementById('create-coin-btn-bottom');
+        const createCoinModal = document.getElementById('create-coin-modal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const coinForm = document.getElementById('coin-form');
+        const currentCard = document.getElementById('current-card');
+        const nextCard = document.getElementById('next-card');
+        const likeBtn = document.getElementById('like-btn');
+        const dislikeBtn = document.getElementById('dislike-btn');
+        const superlikeBtn = document.getElementById('superlike-btn');
+        const matchOverlay = document.getElementById('match-overlay');
+        const tabs = document.querySelectorAll('.tab');
+        const investNowBtn = document.getElementById('invest-now-btn');
+        
+        // Global variables
+        let coins = [];
+        let currentIndex = 0;
+        let currentPumpFunLink = "";
+
+        // Create falling hearts
+        function createFallingHearts() {
+            const rightSideLogo = document.querySelector('.right-side-logo');
+            const colors = ['#ff6b6b', '#ff8e8e', '#ffb3b3', '#ffd8d8'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('heart');
+                
+                // Random position
+                const startPosition = Math.random() * 200 - 100;
+                heart.style.left = `${startPosition}px`;
+                
+                // Random size
+                const size = Math.random() * 20 + 10;
+                heart.style.fontSize = `${size}px`;
+                
+                // Random animation duration
+                const duration = Math.random() * 3 + 2;
+                heart.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                const delay = Math.random() * 5;
+                heart.style.animationDelay = `${delay}s`;
+                
+                rightSideLogo.appendChild(heart);
+                
+                // Remove heart after animation completes
+                setTimeout(() => {
+                    heart.remove();
+                }, (duration + delay) * 1000);
+            }, 300);
+        }
+        
+        // Start the falling hearts animation
+        createFallingHearts();
+
+        // Load coins from Firestore
+        async function loadCoins() {
+            try {
+                const q = query(collection(db, "coins"), orderBy("createdAt", "desc"));
+                const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    coins = [];
+                    querySnapshot.forEach((doc) => {
+                        coins.push(doc.data());
+                    });
+                    
+                    if (coins.length > 0) {
+                        displayCurrentCoin();
+                    } else {
+                        // Show default coins if none in database
+                        coins = [...defaultCoins];
+                        displayCurrentCoin();
+                    }
+                });
+            } catch (error) {
+                console.error("Error loading coins: ", error);
+                // Fallback to default coins if error occurs
+                coins = [...defaultCoins];
+                displayCurrentCoin();
+            }
+        }
+    
+        // Default coins (fallback)
+        const defaultCoins = [
+            {
+                name: 'PEPE',
+                ticker: '$PEPE',
+                marketCap: '$567M',
+                bio: 'The original meme coin inspired by the iconic Pepe the Frog. No utility, just pure meme power and community vibes. To the moon! 🚀',
+                creator: 'Anonymous',
+                holders: '800K',
+                imageUrl: 'https://i.imgur.com/4Q9TQ9u.png',
+                pumpfunLink: 'https://pump.fun/pepe'
+            },
+            {
+                name: 'DOGE',
+                ticker: '$DOGE',
+                marketCap: '$12.3B',
+                bio: 'The OG memecoin that started it all. Much wow, very currency! Endorsed by Elon Musk himself. Started as a joke, now we\'re here.',
+                creator: 'Billy Markus & Jackson Palmer',
+                holders: '4.2M',
+                imageUrl: 'https://i.imgur.com/7Z7Z7Z7.png',
+                pumpfunLink: 'https://pump.fun/doge'
+            }
+        ];
+    
+        // Display current coin
+        function displayCurrentCoin() {
+            if (coins.length === 0) {
+                currentCard.innerHTML = '<div style="padding: 20px; text-align: center;">No coins available. Create one!</div>';
+                return;
+            }
+            
+            const coin = coins[currentIndex];
+            currentPumpFunLink = coin.pumpfunLink || '';
+            
+            // Set the image URL if it exists
+            if (coin.imageUrl) {
+                currentCard.querySelector('.card-img').style.backgroundImage = `url('${coin.imageUrl}')`;
+            } else {
+                // Fallback to placeholder if no image
+                currentCard.querySelector('.card-img').style.backgroundImage = "url('/api/placeholder/360/300')";
+            }
+            
+            currentCard.querySelector('.coin-stats h2').innerHTML = 
+                `${coin.name} <span class="ticker">${coin.ticker}</span>`;
+            
+            currentCard.querySelector('.market-cap').textContent = `Market Cap: ${coin.marketCap}`;
+            currentCard.querySelector('.card-bio p').textContent = coin.bio;
+            
+            // Update Pump.fun link
+            const pumpfunLinkElement = currentCard.querySelector('.pumpfun-link a') || 
+                document.createElement('p');
+            pumpfunLinkElement.innerHTML = `<a href="${currentPumpFunLink}" target="_blank" style="color: var(--secondary);">View on Pump.fun →</a>`;
+            if (!currentCard.querySelector('.pumpfun-link')) {
+                pumpfunLinkElement.className = 'pumpfun-link';
+                pumpfunLinkElement.style = 'margin-top: 10px; font-size: 12px; color: var(--secondary);';
+                currentCard.querySelector('.card-bio').appendChild(pumpfunLinkElement);
+            }
+            
+            currentCard.querySelector('.creator-info span').textContent = `Created by ${coin.creator} • ${coin.holders} holders`;
+        }
+    
+        // Load next coin
+        function loadNextCoin() {
+            // Update current index
+            currentIndex = (currentIndex + 1) % coins.length;
+            
+            // Get the next coin data
+            const coin = coins[currentIndex];
+            currentPumpFunLink = coin.pumpfunLink || '';
+            
+            // Reset current card position and styling
+            currentCard.className = 'card';
+            currentCard.style.transform = 'none';
+            currentCard.style.opacity = '1';
+            currentCard.style.zIndex = '1';
+            
+            // Update current card with new coin data
+            if (coin.imageUrl) {
+                currentCard.querySelector('.card-img').style.backgroundImage = `url('${coin.imageUrl}')`;
+            } else {
+                currentCard.querySelector('.card-img').style.backgroundImage = "url('/api/placeholder/360/300')";
+            }
+            
+            currentCard.querySelector('.coin-stats h2').innerHTML = 
+                `${coin.name} <span class="ticker">${coin.ticker}</span>`;
+            
+            currentCard.querySelector('.market-cap').textContent = `Market Cap: ${coin.marketCap}`;
+            currentCard.querySelector('.card-bio p').textContent = coin.bio;
+            currentCard.querySelector('.creator-info span').textContent = `Created by ${coin.creator} • ${coin.holders} holders`;
+            
+            // Prepare the next card (for smooth animation on next swipe)
+            const nextCoinIndex = (currentIndex + 1) % coins.length;
+            const nextCoin = coins[nextCoinIndex];
+            
+            if (nextCoin) {
+                if (nextCoin.imageUrl) {
+                    nextCard.querySelector('.card-img').style.backgroundImage = `url('${nextCoin.imageUrl}')`;
+                } else {
+                    nextCard.querySelector('.card-img').style.backgroundImage = "url('/api/placeholder/360/300')";
+                }
+                
+                nextCard.querySelector('.coin-stats h2').innerHTML = 
+                    `${nextCoin.name} <span class="ticker">${nextCoin.ticker}</span>`;
+                
+                nextCard.querySelector('.market-cap').textContent = `Market Cap: ${nextCoin.marketCap}`;
+                nextCard.querySelector('.card-bio p').textContent = nextCoin.bio;
+                nextCard.querySelector('.creator-info span').textContent = `Created by ${nextCoin.creator} • ${nextCoin.holders} holders`;
+            }
+            
+            // Position the next card behind current
+            nextCard.style.transform = 'scale(0.9)';
+            nextCard.style.opacity = '0';
+            nextCard.style.zIndex = '-1';
+        }
+    
+        // Format number for market cap display
+        function formatNumber(num) {
+            if (!num) return '0';
+            
+            num = parseFloat(num);
+            if (num >= 1e9) {
+                return (num / 1e9).toFixed(1) + 'B';
+            } else if (num >= 1e6) {
+                return (num / 1e6).toFixed(1) + 'M';
+            } else if (num >= 1e3) {
+                return (num / 1e3).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+    
+        // Event Listeners
+        createCoinBtn.addEventListener('click', () => {
+            createCoinModal.style.display = 'flex';
+        });
+        
+        createCoinBtnBottom.addEventListener('click', () => {
+            createCoinModal.style.display = 'flex';
+        });
+        
+        closeModalBtn.addEventListener('click', () => {
+            createCoinModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === createCoinModal) {
+                createCoinModal.style.display = 'none';
+            }
+            if (e.target === matchOverlay) {
+                matchOverlay.style.display = 'none';
+            }
+        });
+        
+        // Handle form submission
+        coinForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('coin-name').value;
+            const ticker = document.getElementById('coin-ticker').value;
+            const bio = document.getElementById('coin-bio').value;
+            const marketCap = document.getElementById('market-cap').value;
+            const imageUrl = document.getElementById('coin-image').value;
+            const creator = document.getElementById('creator-name').value;
+            const pumpfunLink = document.getElementById('pumpfun-link').value;
+            
+            try {
+                // Add to Firestore
+                await addDoc(collection(db, "coins"), {
+                    name: name,
+                    ticker: ticker.startsWith('$') ? ticker : '$' + ticker,
+                    marketCap: '$' + formatNumber(marketCap),
+                    imageUrl: imageUrl,
+                    bio: bio,
+                    creator: creator || 'Anonymous',
+                    holders: '0',
+                    pumpfunLink: pumpfunLink,
+                    createdAt: serverTimestamp()
+                });
+                
+                createCoinModal.style.display = 'none';
+                coinForm.reset();
+                alert('Your coin has been listed on OnlyShills! 🚀');
+            } catch (error) {
+                console.error("Error adding coin: ", error);
+                alert('Error adding your coin. Please try again.');
+            }
+        });
+        
+// Handle like button
+        likeBtn.addEventListener('click', () => {
+            if (coins.length === 0) return;
+            
+            currentCard.classList.add('swipe-right');
+            
+            // 33% chance to get a match
+            const isMatch = Math.random() < 0.33;
+            
+            setTimeout(() => {
+                const matchedCoin = coins[(currentIndex - 1 + coins.length) % coins.length];
+                loadNextCoin();
+                
+                if (isMatch) {
+                    // Update matched coin image
+                    document.getElementById('matched-coin-image').src = matchedCoin.imageUrl || '/api/placeholder/120/120';
+                    // Show match overlay
+                    matchOverlay.style.display = 'flex';
+                    
+                    // Update match text with coin name
+                    document.querySelector('.match-subtitle').textContent = 
+                        `You and ${matchedCoin.name} like each other 🚀`;
+                }
+            }, 500);
+        });
+        
+        // Handle dislike button
+        dislikeBtn.addEventListener('click', () => {
+            if (coins.length === 0) return;
+            
+            currentCard.classList.add('swipe-left');
+            
+            setTimeout(() => {
+                loadNextCoin();
+            }, 500);
+        });
+        
+        // Handle superlike button
+        superlikeBtn.addEventListener('click', () => {
+            if (coins.length === 0) return;
+            
+            currentCard.style.transform = 'translateY(-150px)';
+            currentCard.style.opacity = '0';
+            currentCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+            
+            setTimeout(() => {
+                const matchedCoin = coins[(currentIndex - 1 + coins.length) % coins.length];
+                loadNextCoin();
+                
+                // Update matched coin image
+                document.getElementById('matched-coin-image').src = matchedCoin.imageUrl || '/api/placeholder/120/120';
+                // Show match overlay (superlike always matches)
+                matchOverlay.style.display = 'flex';
+                
+                // Update match text with coin name
+                document.querySelector('.match-subtitle').textContent = 
+                    `You super-liked ${matchedCoin.name}! 🚀🌟`;
+            }, 500);
+        });
+        
+        // Handle match buttons
+        investNowBtn.addEventListener('click', () => {
+            if (currentPumpFunLink) {
+                window.open(currentPumpFunLink, '_blank');
+            } else {
+                alert('Taking you to exchange to invest!');
+            }
+            matchOverlay.style.display = 'none';
+        });
+        
+        document.querySelector('.continue-btn').addEventListener('click', () => {
+            matchOverlay.style.display = 'none';
+        });
+        
+        // Handle tab navigation
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Don't change tab if clicking the create coin button in tab bar
+                if (tab.querySelector('#create-coin-btn-bottom')) {
+                    return;
+                }
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Here you would handle actual tab navigation
+                const tabName = tab.querySelector('span').textContent;
+                if (tabName !== 'Discover') {
+                    alert(`${tabName} feature coming soon! 🚧`);
+                    setTimeout(() => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tabs[0].classList.add('active');
+                    }, 1000);
+                }
+            });
+        });
+    
+        // Initialize the app
+        loadCoins();
+    </script>
+</body>
+</html>
